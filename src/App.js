@@ -1,7 +1,8 @@
 //import React from 'react';
 import Costs from './components/Costs/Costs';
+import NewCost from './components/NewCost/NewCost';
 
-function App() {
+const App = () => {
   const costs = [
     {
       date: new Date(2021, 2, 12),
@@ -26,7 +27,7 @@ function App() {
 
   return (
     <div>
-      <h1>Start React</h1>
+      <NewCost />
       <Costs costs={costs} />
     </div>
   );
