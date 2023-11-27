@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './CostForm.css';
 
 const CostForm = (props) => {
-  const [insertNewExpenses, setInsertNewExpenses] = useState(false);
   const [inputName, setInputName] = useState('');
   const [inputAmount, setInputAmount] = useState('');
   const [inputDate, setInputDate] = useState('');
@@ -53,24 +52,13 @@ const CostForm = (props) => {
     setInputName('');
     setInputAmount('');
     setInputDate('');
-    setInsertNewExpenses(false);
+    props.onInputCostData(false);
   };
 
-  const cancelAddExpenses = (event) => {
-    setInsertNewExpenses(false);
+  const hideFormHandler = (event) => {
+    event.preventDefault();
+    props.onInputCostData(false);
   };
-
-  const startAddExpenses = (event) => {
-    setInsertNewExpenses(true);
-  };
-
-  if (!insertNewExpenses) {
-    return (
-      <div className='new-cost__actions'>
-        <button onClick={startAddExpenses}>Add New Expenses</button>
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={submitHandler}>
@@ -101,9 +89,7 @@ const CostForm = (props) => {
         </div>
         <div className='new-cost__actions'>
           <button type='submit'>Add Expenses</button>
-        </div>
-        <div className='new-cost__actions'>
-          <button onClick={cancelAddExpenses}>Cancel</button>
+          <button type='button' onClick={hideFormHandler}>Cancel</button>
         </div>
       </div>
     </form>
