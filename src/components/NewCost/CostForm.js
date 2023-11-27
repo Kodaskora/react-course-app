@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './CostForm.css';
 
 const CostForm = (props) => {
+  const [insertNewExpenses, setInsertNewExpenses] = useState(false);
   const [inputName, setInputName] = useState('');
   const [inputAmount, setInputAmount] = useState('');
   const [inputDate, setInputDate] = useState('');
@@ -31,7 +32,7 @@ const CostForm = (props) => {
     //   ...userInput,
     //   amount: event.target.value
     // });
-  }
+  };
 
   const dateChangeHandler = (event) => {
     setInputDate(event.target.value);
@@ -39,19 +40,36 @@ const CostForm = (props) => {
     //   ...userInput,
     //   date: event.target.value
     // });
-  }
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
     const costData = {
       name: inputName,
       amount: inputAmount,
-      date: new Date(inputDate)
+      date: new Date(inputDate),
     };
     props.onSaveCostData(costData);
     setInputName('');
     setInputAmount('');
     setInputDate('');
+    setInsertNewExpenses(false);
+  };
+
+  const cancelAddExpenses = (event) => {
+    setInsertNewExpenses(false);
+  };
+
+  const startAddExpenses = (event) => {
+    setInsertNewExpenses(true);
+  };
+
+  if (!insertNewExpenses) {
+    return (
+      <div className='new-cost__actions'>
+        <button onClick={startAddExpenses}>Add New Expenses</button>
+      </div>
+    );
   }
 
   return (
@@ -63,14 +81,29 @@ const CostForm = (props) => {
         </div>
         <div className='new-cost__control'>
           <label>Cost</label>
-          <input type='number' min='0.01' step='0.01' value={inputAmount} onChange={amountChangeHandler}/>
+          <input
+            type='number'
+            min='0.01'
+            step='0.01'
+            value={inputAmount}
+            onChange={amountChangeHandler}
+          />
         </div>
         <div className='new-cost__control'>
           <label>Date</label>
-          <input type='date' min='2018-01-01' step='2023-12-31' value={inputDate} onChange={dateChangeHandler}/>
+          <input
+            type='date'
+            min='2018-01-01'
+            step='2023-12-31'
+            value={inputDate}
+            onChange={dateChangeHandler}
+          />
         </div>
         <div className='new-cost__actions'>
           <button type='submit'>Add Expenses</button>
+        </div>
+        <div className='new-cost__actions'>
+          <button onClick={cancelAddExpenses}>Cancel</button>
         </div>
       </div>
     </form>
